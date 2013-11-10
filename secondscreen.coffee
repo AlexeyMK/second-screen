@@ -77,6 +77,8 @@ if Meteor.isClient
     result: -> Session.get("scrape_result") or "Still scrapin"
 
   Template.hackathon.helpers
+    count: (store) ->
+      get_hack()?[store]?.length or 0
     name: -> Session.get("hackathon")?.name
     demoing_now: -> Session.get "current_hack"
     hackathon: -> Session.get "hackathon"
@@ -102,8 +104,6 @@ if Meteor.isClient
       Meteor.call "toggle_action",
         event.toElement.id, Session.get("current_hack")._id
   Template.hack_actions.helpers
-    'count': (store) ->
-      get_hack()?[store]?.length or 0
     'user_did_action': (action) ->
       Meteor.userId() in (get_hack()?[action] or [])
 

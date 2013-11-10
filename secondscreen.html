@@ -3,9 +3,13 @@
 </head>
 
 <template name="layout">
-  {{loginButtons}}
-  {{> tweet_sidebar }}
-  {{yield}}
+  <div class="container">
+    <div class="auth">
+      {{loginButtons}}
+    </div>
+    {{yield}}
+    {{> tweet_sidebar }}
+  </div>
 </template>
 
 <template name="scrape">
@@ -13,33 +17,36 @@
 </template>
 
 <template name="hackathon">
-  <h4>{{name}} Demos</h4>
+  <div class="header">
+    <h4>{{name}} Demos</h4>
+    {{> enter_team }}
+  </div>
+    <div class="content">
   {{#if hackathon }}
     {{#if demoing_now }}
       <h1>{{demoing_now.hackerleague.name}}</h1>
+      <div class="links">
+        <a target="_blank" href="{{demoing_now.hackerleague.urls.self}}">View Team</a> &middot;
+        <a target="_blank" href="{{demoing_now.hackerleague.urls.external}}">Go to Website</a> &middot;
+        <span class="like-info">{{count "liked_by"}} likes</span>
+      </div>
       <h4>{{demoing_now.hackerleague.description}}</h4>
+      {{> hack_actions }}
       {{#if demoing_now.hackerleague.urls.screenshot }}
         <img src="{{demoing_now.hackerleague.urls.screenshot}}" />
       {{/if}}
-      {{> hack_actions }}
     {{/if}}
-    <h4>They're done, next team:</h4>
-    {{> enter_team }}
   {{else}}
     TODO: code to import more hackathons
   {{/if}}
+    </div>
 </template>
 
 <template name="hack_actions">
   <div class="actions">
-    <a href="{{demoing_now.hackerleague.urls.self}}">View Team</a> |
-    <a href="{{demoing_now.hackerleague.urls.external}}">Go to Website</a>
     {{#if currentUser }}
-      <span class="like-info">{{count "liked_by"}} likes</span>
-      <span class="would-use-info">{{count "would_be_used_by"}} users</span>
-      <br />
       {{#if user_did_action "liked_by" }}
-        <button id="like" class="like btn btn-success">No longer like</button>
+        <button id="like" class="like btn btn-success">Unlike</button>
       {{else}}
         <button id="like" class="like btn btn-primary">Like</button>
       {{/if}}
@@ -54,15 +61,17 @@
         <button id="woulduse" class="btn btn-primary">If you finish this, I would use it.</button>
       {{/if}}
     {{else}}
-      Log in to participate
+      <h1>Log in above to participate</h1>
     {{/if}}
 
   </div>
 </template>
 
 <template name="enter_team">
+  <div class="chooser">
   Who is demoing right now?
   {{inputAutocomplete settings id="team" class="input-xlarge" placeholder="Current Team"}}
+  </div>
 </template>
 
 <template name="home">
@@ -76,7 +85,7 @@
 <template name="tweet_sidebar">
   <div class="tweet-sidebar">
     <!-- placeholder -->
-    <a class="twitter-timeline" data-dnt="true" height="660" href="https://twitter.com/search?q=hackprinceton" data-widget-id="399315035559694337">Tweets about "hackprinceton"</a>
+    <a class="twitter-timeline" data-dnt="true" height="500" href="https://twitter.com/search?q=hackprinceton" data-widget-id="399315035559694337">Tweets about "hackprinceton"</a>
   </div>
 </template>
 

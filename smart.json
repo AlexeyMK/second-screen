@@ -3,7 +3,7 @@
     "iron-router": {},
     "autocomplete": {
       "branch": "secondscreen_hack",
-      "path": "../meteor-autocomplete"
+      "git": "https://github.com/AlexeyMK/meteor-autocomplete.git"
     }
   }
 }

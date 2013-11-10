@@ -74,6 +74,16 @@ if Meteor.isClient
     demoing_now: -> null
     hackathon: -> Session.get "hackathon"
 
+  Template.enter_team.settings = ->
+    position: "bottom"
+    limit: 5
+    rules: [
+      token: ""
+      collection: Hacks
+      field: "hackerleague.name"
+      template: Template.hack_autocomplete
+    ]
+
   Template.tweet_sidebar.rendered = ->
     # stock twitter widget code
     ((d, s, id) ->

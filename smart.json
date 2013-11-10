@@ -1,5 +1,9 @@
 {
   "packages": {
-    "iron-router": {}
+    "iron-router": {},
+    "autocomplete": {
+      "branch": "secondscreen_hack",
+      "git": "https://github.com/AlexeyMK/meteor-autocomplete.git"
+    }
   }
 }

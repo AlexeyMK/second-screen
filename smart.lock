@@ -2,13 +2,22 @@
   "meteor": {},
   "dependencies": {
     "basePackages": {
-      "iron-router": {}
+      "iron-router": {},
+      "autocomplete": {
+        "git": "https://github.com/AlexeyMK/meteor-autocomplete.git",
+        "branch": "secondscreen_hack"
+      }
     },
     "packages": {
       "iron-router": {
         "git": "https://github.com/EventedMind/iron-router.git",
         "tag": "v0.6.1",
         "commit": "4e1ee0581d68bff422a915dacb0bd30eae10fe08"
+      },
+      "autocomplete": {
+        "git": "https://github.com/AlexeyMK/meteor-autocomplete.git",
+        "branch": "secondscreen_hack",
+        "commit": "f5f6bd8fadf30a98df189538db1a92cbad35a16b"
       }
     }
   }

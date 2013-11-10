@@ -59,7 +59,7 @@ if Meteor.isClient
                 hackerleague_hackathonid: @params.hackerleague_id
                 liked_by: []
                 would_be_used_by: []
-                voted_for_by: []
+                voted_by: []
               Hacks.insert hack
             Session.set "scrape_result", "Done! Added #{result.data.length} hacks"
 
@@ -98,13 +98,14 @@ if Meteor.isClient
       Session.set "current_hack", hack
 
   Template.hack_actions.events =
-    'click .like': ->
-      Meteor.call "toggle_like", Session.get("current_hack")._id
+    'click button': (event) ->
+      Meteor.call "toggle_action",
+        event.toElement.id, Session.get("current_hack")._id
   Template.hack_actions.helpers
-    'like_count': ->
-      get_hack()?.liked_by?.length or 0
-    'liked_by_user': ->
-      Meteor.userId() in (get_hack()?.liked_by or [])
+    'count': (store) ->
+      get_hack()?[store]?.length or 0
+    'user_did_action': (action) ->
+      Meteor.userId() in (get_hack()?[action] or [])
 
   Template.tweet_sidebar.rendered = ->
     # stock twitter widget code
@@ -121,12 +122,20 @@ if Meteor.isClient
     #
 if Meteor.isServer
   Meteor.methods
-    toggle_like: (hack_id) ->
+    toggle_action: (action, hack_id) ->
+      ACTION_NAMES = {
+        like: "liked_by"
+        vote: "voted_by"
+        woulduse: "would_be_used_by"
+      }
+      store = ACTION_NAMES[action]
+      lookup_dict = {}
+      lookup_dict[store] = @userId
       hack = Hacks.findOne(hack_id)
-      if @userId in hack.liked_by
+      if @userId in hack[store]
         # remove from liked list
-        Hacks.update(hack_id, { $pull: { liked_by: @userId }})
+        Hacks.update(hack_id, { $pull: lookup_dict})
       else
-        Hacks.update(hack_id, { $push: { liked_by: @userId }})
+        Hacks.update(hack_id, { $push: lookup_dict})
 
   Meteor.startup -> # code to run on server at startup

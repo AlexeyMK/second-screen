@@ -57,6 +57,9 @@ if Meteor.isClient
               hack =
                 hackerleague: hackerleague_hack
                 hackerleague_hackathonid: @params.hackerleague_id
+                liked_by: []
+                would_be_used_by: []
+                voted_for_by: []
               Hacks.insert hack
             Session.set "scrape_result", "Done! Added #{result.data.length} hacks"
 
@@ -67,6 +70,8 @@ if Meteor.isClient
       template: "hackathon"
       before: ->
         Session.set "hackathon", Hackathons.findOne(slug: @params.hackathon_slug)
+
+  get_hack = -> Hacks.findOne(Session.get('current_hack')._id)
 
   Template.scrape.helpers
     result: -> Session.get("scrape_result") or "Still scrapin"
@@ -95,6 +100,11 @@ if Meteor.isClient
   Template.hack_actions.events =
     'click .like': ->
       Meteor.call "toggle_like", Session.get("current_hack")._id
+  Template.hack_actions.helpers
+    'like_count': ->
+      get_hack()?.liked_by?.length or 0
+    'liked_by_user': ->
+      Meteor.userId() in (get_hack()?.liked_by or [])
 
   Template.tweet_sidebar.rendered = ->
     # stock twitter widget code
@@ -110,4 +120,13 @@ if Meteor.isClient
     # / stock twitter code
     #
 if Meteor.isServer
+  Meteor.methods
+    toggle_like: (hack_id) ->
+      hack = Hacks.findOne(hack_id)
+      if @userId in hack.liked_by
+        # remove from liked list
+        Hacks.update(hack_id, { $pull: { liked_by: @userId }})
+      else
+        Hacks.update(hack_id, { $push: { liked_by: @userId }})
+
   Meteor.startup -> # code to run on server at startup

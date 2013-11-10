@@ -35,6 +35,8 @@
     <a href="{{demoing_now.hackerleague.urls.self}}">View Team</a> |
     <a href="{{demoing_now.hackerleague.urls.external}}">Go to Website</a>
     {{#if currentUser }}
+      <span class="like-info">{{like_count}} likes</span>
+      <br />
       {{#if liked_by_user }}
         <button class="like btn btn-success">No longer like</button>
       {{else}}

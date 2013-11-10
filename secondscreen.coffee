@@ -16,6 +16,8 @@ if Meteor.isClient
     @route "home",
       path: "/"
       template: "home"
+      action: ->
+        this.redirect("/hackprinceton-fall-2013")
 
   Router.map ->
     @route "scraper",
@@ -71,7 +73,7 @@ if Meteor.isClient
 
   Template.hackathon.helpers
     name: -> Session.get("hackathon")?.name
-    demoing_now: -> null
+    demoing_now: -> Session.get "current_hack"
     hackathon: -> Session.get "hackathon"
 
   Template.enter_team.settings = ->
@@ -90,6 +92,10 @@ if Meteor.isClient
         console.error("Couldn't find selected hack: #{picked_name}")
       Session.set "current_hack", hack
 
+  Template.hack_actions.events =
+    'click .like': ->
+      Meteor.call "toggle_like", Session.get("current_hack")._id
+
   Template.tweet_sidebar.rendered = ->
     # stock twitter widget code
     ((d, s, id) ->
@@ -102,6 +108,6 @@ if Meteor.isClient
         fjs.parentNode.insertBefore(js, fjs)
     )(document, "script", "twitter-wjs")
     # / stock twitter code
-
+    #
 if Meteor.isServer
   Meteor.startup -> # code to run on server at startup

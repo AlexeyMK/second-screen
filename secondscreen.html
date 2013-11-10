@@ -3,6 +3,7 @@
 </head>
 
 <template name="layout">
+  {{loginButtons}}
   {{> tweet_sidebar }}
   {{yield}}
 </template>
@@ -12,16 +13,40 @@
 </template>
 
 <template name="hackathon">
-  <h1>{{name}} Demos</h1>
+  <h4>{{name}} Demos</h4>
   {{#if hackathon }}
     {{#if demoing_now }}
-      <h2>Currently up: {{demoing_now}}</h2>
-    {{else}}
-      {{> enter_team }}
+      <h1>{{demoing_now.hackerleague.name}}</h1>
+      <h4>{{demoing_now.hackerleague.description}}</h4>
+      {{#if demoing_now.hackerleague.urls.screenshot }}
+        <img src="{{demoing_now.hackerleague.urls.screenshot}}" />
+      {{/if}}
+      {{> hack_actions }}
     {{/if}}
+    <h4>They're done, next team:</h4>
+    {{> enter_team }}
   {{else}}
     TODO: code to import more hackathons
   {{/if}}
+</template>
+
+<template name="hack_actions">
+  <div class="actions">
+    <a href="{{demoing_now.hackerleague.urls.self}}">View Team</a> |
+    <a href="{{demoing_now.hackerleague.urls.external}}">Go to Website</a>
+    {{#if currentUser }}
+      {{#if liked_by_user }}
+        <button class="like btn btn-success">No longer like</button>
+      {{else}}
+        <button class="like btn btn-primary">Like</button>
+      {{/if}}
+      <button class="vote">Vote for Audience Choice (limit 1)</button>
+      <button class="woulduse">If you finish this, I would use it.</button>
+    {{else}}
+      Log in to participate
+    {{/if}}
+
+  </div>
 </template>
 
 <template name="enter_team">

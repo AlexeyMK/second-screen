@@ -4,7 +4,8 @@
     "basePackages": {
       "iron-router": {},
       "autocomplete": {
-        "path": "../meteor-autocomplete"
+        "git": "https://github.com/AlexeyMK/meteor-autocomplete.git",
+        "branch": "secondscreen_hack"
       }
     },
     "packages": {
@@ -14,7 +15,9 @@
         "commit": "4e1ee0581d68bff422a915dacb0bd30eae10fe08"
       },
       "autocomplete": {
-        "path": "../meteor-autocomplete"
+        "git": "https://github.com/AlexeyMK/meteor-autocomplete.git",
+        "branch": "secondscreen_hack",
+        "commit": "cdb65e39461d16392ec908418d5266983b04eb8c"
       }
     }
   }

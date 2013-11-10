@@ -78,11 +78,17 @@ if Meteor.isClient
     position: "bottom"
     limit: 5
     rules: [
-      token: ""
+      token: "^"
+      include_token: false
       collection: Hacks
       field: "hackerleague.name"
       template: Template.hack_autocomplete
     ]
+    onSelected: (picked_name) ->
+      hack = Hacks.findOne("hackerleague.name": picked_name)
+      if not hack
+        console.error("Couldn't find selected hack: #{picked_name}")
+      Session.set "current_hack", hack
 
   Template.tweet_sidebar.rendered = ->
     # stock twitter widget code

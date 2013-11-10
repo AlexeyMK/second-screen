@@ -1,0 +1,30 @@
+<head>
+  <title>secondscreen</title>
+</head>
+
+<template name="layout">
+  {{> tweet_sidebar }}
+  {{yield}}
+</template>
+
+<template name="posts">
+  Posts
+</template>
+
+<template name="post">
+  Post
+</template>
+
+<template name="hello">
+  <h1>Hello World!</h1>
+  {{greeting}}
+  <input type="button" value="Click" />
+</template>
+
+<template name="tweet_sidebar">
+  <div class="tweet-sidebar">
+    <!-- placeholder -->
+    <a class="twitter-timeline" data-dnt="true" height="660" href="https://twitter.com/search?q=hackprinceton" data-widget-id="399315035559694337">Tweets about "hackprinceton"</a>
+  </div>
+</template>
+

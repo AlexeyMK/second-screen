@@ -7,8 +7,21 @@
   {{yield}}
 </template>
 
+<template name="scrape">
+  Status so far: <br />{{result}}
+</template>
+
 <template name="hackathon">
-  I am {{name}}
+  <h1>{{name}} Demos</h1>
+  {{#if hackathon_exists }}
+    {{#if demoing_now }}
+      <h2>Currently up: {{demoing_now}}</h2>
+    {{else}}
+      AUTOCOMPLETE current team please
+    {{/if}}
+  {{else}}
+    TODO: code to import more hackathons
+  {{/if}}
 </template>
 
 <template name="home">

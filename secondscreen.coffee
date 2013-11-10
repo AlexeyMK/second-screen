@@ -2,12 +2,27 @@ Hackathons = new Meteor.Collection("hackathons")
 # faking for now, later use
 # https://www.hackerleague.org/api/v1/hackathons.json
 Hacks = new Meteor.Collection("hacks")
+CurrentHack = new Meteor.Collection("current_hack_id")
 # to import: https://www.hackerleague.org/api/v1/hackathons/51f622218cf5b76a9600004f/hacks.json
 # yale: https://www.hackerleague.org/api/v1/hackathons/51f43f3b36944f2aa8000125/hacks.json
+CurrentHack.allow
+  insert: (userId) ->
+    console.log "insert? mayb", \
+      (Meteor.users.findOne(userId).services.facebook.id is "618833")
+    Meteor.users.findOne(userId).services.facebook.id is "618833"
+  update: (userId) ->
+    console.log "update - maybe"
+    userId and Meteor.users.findOne(userId)?.services?.facebook?.id is "618833"
 
 if Meteor.isClient
-  window.Hacks = Hacks #TEMP as fuck
-  window.Hackathons = Hackathons #TEMP as fuck
+  Meteor.startup ->
+    CurrentHack.find().observe
+      changed: (new_document) ->
+        console.log "observed change"
+        Session.set('current_hack', Hacks.findOne(new_document.hackid))
+  #window.Hacks = Hacks #TEMP as fuck
+  #window.Hackathons = Hackathons #TEMP as fuck
+  window.CurrentHack = CurrentHack
 
   Router.configure
     layoutTemplate: "layout"
@@ -19,7 +34,7 @@ if Meteor.isClient
       action: ->
         this.redirect("/hackprinceton-fall-2013")
 
-  Router.map ->
+  ###  Router.map ->
     @route "scraper",
       path: "/scrape/:hackerleague_id"
       template: "scrape"
@@ -62,7 +77,7 @@ if Meteor.isClient
                 voted_by: []
               Hacks.insert hack
             Session.set "scrape_result", "Done! Added #{result.data.length} hacks"
-
+            ###
 
   Router.map ->
     @route "hackathon",
@@ -82,6 +97,9 @@ if Meteor.isClient
     name: -> Session.get("hackathon")?.name
     demoing_now: -> Session.get "current_hack"
     hackathon: -> Session.get "hackathon"
+    #youtube_img: -> "http://img.youtube.com/vi/Mkq8pnvsnQg/0.jpg"
+  Template.enter_team.helpers
+    admin: -> Meteor.user()?.services?.facebook?.id is "618833"
 
   Template.enter_team.settings = ->
     position: "bottom"
@@ -98,6 +116,11 @@ if Meteor.isClient
       if not hack
         console.error("Couldn't find selected hack: #{picked_name}")
       Session.set "current_hack", hack
+      chid = CurrentHack.findOne()?._id
+      if chid
+        CurrentHack.update(chid, {$set: {hackid: hack._id}})
+      else
+        CurrentHack.insert({hackid: hack._id})
 
   Template.hack_actions.events =
     'click button': (event) ->
@@ -106,6 +129,7 @@ if Meteor.isClient
   Template.hack_actions.helpers
     'user_did_action': (action) ->
       Meteor.userId() in (get_hack()?[action] or [])
+    'hack': -> Session.get('current_hack')
 
   Template.tweet_sidebar.rendered = ->
     # stock twitter widget code
@@ -139,3 +163,19 @@ if Meteor.isServer
         Hacks.update(hack_id, { $push: lookup_dict})
 
   Meteor.startup -> # code to run on server at startup
+    Hackathons.deny
+      insert: -> false
+      update: -> false
+      remove: -> false
+    CurrentHack.allow
+      insert: (userId) ->
+        console.log "insert? mayb", \
+          (Meteor.users.findOne(userId).services.facebook.id is "618833")
+        Meteor.users.findOne(userId).services.facebook.id is "618833"
+      update: (userId) ->
+        console.log "update - maybe"
+        userId and Meteor.users.findOne(userId)?.services?.facebook?.id is "618833"
+    Hacks.deny
+      insert: -> false
+      update: -> false
+      remove: -> false

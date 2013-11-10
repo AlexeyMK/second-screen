@@ -4,8 +4,6 @@
 # but you can also edit it by hand.
 
 standard-app-packages
-autopublish
-insecure
 preserve-inputs
 iron-router
 coffeescript
@@ -16,3 +14,5 @@ accounts-ui
 accounts-password
 accounts-facebook
 bootstrap
+autopublish
+madewith

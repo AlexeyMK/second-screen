@@ -34,11 +34,18 @@
       {{> hack_actions }}
       {{#if demoing_now.hackerleague.urls.screenshot }}
         <img src="{{demoing_now.hackerleague.urls.screenshot}}" />
+      {{else}}
+        {{#if demoing_now.hackerleague.urls.demo }}
+          <img src="{{youtube_img}}" />
+        {{/if}}
       {{/if}}
     {{/if}}
   {{else}}
     TODO: code to import more hackathons
   {{/if}}
+    <br />
+    <p>Not here? Follow <a href="http://ustre.am/16QgD">the livestream</a>.</p>
+    <p>Made by <a href="http://twitter.com/alexeymk">@alexeymk</a>, design by <a href="http://raymondzhong.com/">Raymond Zhong</a></p>
     </div>
 </template>
 
@@ -50,28 +57,25 @@
       {{else}}
         <button id="like" class="like btn btn-primary">Like</button>
       {{/if}}
-      {{#if user_did_action "voted_by"}}
-        <button id="vote" class="btn btn-success">Unvote</button>
-      {{else}}
-        <button id="vote" class="btn btn-primary">Vote for Audience Choice (limit 1)</button>
-      {{/if}}
+      <a id="vote" class="btn btn-primary" href="https://twitter.com/intent/tweet?hashtags=hackprinceton,crowdfave&text=Voting%20for%20{{hack.hackerleague.name}}&url={{hack.hackerleague.urls.self}}">Tweet #crowdfave</a>
       {{#if user_did_action "would_be_used_by"}}
-        <button id="woulduse" class="btn btn-success">On second thought...</button>
+         <button id="woulduse" class="btn btn-success">On second thought...</button>
       {{else}}
-        <button id="woulduse" class="btn btn-primary">If you finish this, I would use it.</button>
+        <button id="woulduse" class="btn btn-primary">Subscribe (I'd use this)</button>
       {{/if}}
     {{else}}
       <h1>Log in above to participate</h1>
     {{/if}}
-
   </div>
 </template>
 
 <template name="enter_team">
+  {{# if admin }}
   <div class="chooser">
   Who is demoing right now?
   {{inputAutocomplete settings id="team" class="input-xlarge" placeholder="Current Team"}}
   </div>
+  {{/if}}
 </template>
 
 <template name="home">

@@ -16,6 +16,6 @@ x only Alexey can change current team.
 - (but folks can override)
 - livestream if it works
 - (what if unknown team - should still work
-- youtube (first screen idea)
+- youtube (first screen idea) - http://stackoverflow.com/questions/6556559/youtube-api-extract-video-id/10794759#10794759 for regex
 - prediction/charts
 - google analytics

@@ -4,6 +4,9 @@
     "autocomplete": {
       "branch": "secondscreen_hack",
       "git": "https://github.com/AlexeyMK/meteor-autocomplete.git"
+    },
+    "z-mongo-admin": {
+      "path": "../meteor-admin-ui"
     }
   }
 }

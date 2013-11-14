@@ -6,6 +6,9 @@
       "autocomplete": {
         "git": "https://github.com/AlexeyMK/meteor-autocomplete.git",
         "branch": "secondscreen_hack"
+      },
+      "z-mongo-admin": {
+        "path": "../meteor-admin-ui"
       }
     },
     "packages": {
@@ -17,7 +20,30 @@
       "autocomplete": {
         "git": "https://github.com/AlexeyMK/meteor-autocomplete.git",
         "branch": "secondscreen_hack",
-        "commit": "cdb65e39461d16392ec908418d5266983b04eb8c"
+        "commit": "8efdcfeec91f6a43d91521162d2e0e6dedbc56b1"
+      },
+      "z-mongo-admin": {
+        "path": "../meteor-admin-ui"
+      },
+      "router": {
+        "git": "https://github.com/tmeasday/meteor-router.git",
+        "tag": "v0.5.4.1",
+        "commit": "d00e380dda2184b70e909fc4a0fb5358d602c586"
+      },
+      "spin": {
+        "git": "https://github.com/SachaG/meteor-spin.git",
+        "tag": "v0.2.0",
+        "commit": "fd3a2871a69442848b4b4e74f5e1ae28fa4a95a4"
+      },
+      "page-js-ie-support": {
+        "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",
+        "tag": "v1.3.5",
+        "commit": "b99ed8380aefd10b2afc8f18d9eed4dd0d8ea9cb"
+      },
+      "HTML5-History-API": {
+        "git": "https://github.com/tmeasday/meteor-HTML5-History-API.git",
+        "tag": "v4.0.0",
+        "commit": "dc4965f1424cfca625ec3fbea17eace03f8e32c5"
       }
     }
   }
